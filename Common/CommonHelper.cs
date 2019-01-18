@@ -99,6 +99,7 @@ namespace Common
         }
         #endregion
 
+        #region 生成图片验证码的方法
         /// <summary>  
         /// 该方法用于生成指定位数的随机数  
         /// </summary>  
@@ -187,6 +188,7 @@ namespace Common
             g.Dispose();
             Img.Dispose();
             return ms;
-        }
+        } 
+        #endregion
     }
 }
