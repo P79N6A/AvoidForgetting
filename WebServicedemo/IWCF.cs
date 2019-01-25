@@ -12,6 +12,9 @@ namespace WebServicedemo
     public interface IWCF
     {
         [OperationContract]
-        void DoWork();
+        string DoWork();
+
+        [OperationContract]
+        int Plus(int x, int y);
     }
 }

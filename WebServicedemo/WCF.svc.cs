@@ -11,8 +11,14 @@ namespace WebServicedemo
     // 注意: 为了启动 WCF 测试客户端以测试此服务，请在解决方案资源管理器中选择 WCF.svc 或 WCF.svc.cs，然后开始调试。
     public class WCF : IWCF
     {
-        public void DoWork()
+        public int Plus(int x, int y)
         {
+            return x + y;
+        }
+
+        string IWCF.DoWork()
+        {
+            return "qeq";
         }
     }
 }
