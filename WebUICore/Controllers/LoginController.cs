@@ -1,26 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Common;
-using Microsoft.AspNetCore.Http;
+﻿using Common;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using System;
 
 namespace WebUICore.Controllers
 {
     public class LoginController : Controller
     {
+        public IMemoryCache _cache;
         public IActionResult Index()
         {
             return View();
         }
-        public IActionResult ValidateCode() {
+        public LoginController(IMemoryCache memoryCache)
+        {
+            _cache = memoryCache;
+        }
+        public IActionResult ValidateCode(int numbers)
+        {
             string code = "";
             CommonHelper c = new CommonHelper();
-            System.IO.MemoryStream ms = c.Create(out code);
-            //HttpContext.Session.SetString("LoginValidateCode",code);
-            Response.Body.Dispose();
+            System.IO.MemoryStream ms = c.Create(out code, numbers);
+            string iCode = code.ToLower();
+            _cache.Set("validata", iCode);
             return File(ms.ToArray(), @"image/png");
+        }
+
+        public IActionResult UserLogin(string userName, string pwd, string validata)
+        {
+            string lvalidata = validata.ToLower();
+            if (lvalidata != _cache.Get("validata").ToString())
+            {
+                if (_cache.Get("validata") != null) {
+                    _cache.Remove("validata");
+                }
+                return Content("验证码错误！");
+            }     
+            if (userName != "wang" || pwd != "1")
+            {
+                if (_cache.Get("validata") != null)
+                {
+                    _cache.Remove("validata");
+                }
+                return Content("用户名或者密码不正确");
+            }
+            if (_cache.Get("validata") != null)
+            {
+                _cache.Remove("validata");
+            }
+            return Content("ok");
         }
     }
 }

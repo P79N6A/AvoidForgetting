@@ -21,6 +21,8 @@ namespace WebUICore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSession();
+            services.AddMemoryCache();
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -28,6 +30,7 @@ namespace WebUICore
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             //项目目录下
+            
             string connecttext = "Filename=./MY.DB";
             services.AddDbContext<MyDbContext>(options => options.UseSqlite(connecttext,c=>c.MigrationsAssembly("WebUICore")));
 
@@ -48,7 +51,7 @@ namespace WebUICore
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
+            app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

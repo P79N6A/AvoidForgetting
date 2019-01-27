@@ -45,7 +45,7 @@ namespace Common
             }
         }
         #endregion
-
+  
 
         #region 邮件发送
         /// <summary>
@@ -139,7 +139,7 @@ namespace Common
         /// </summary>  
         /// <param name="code">code是一个随机数</param>
         /// <param name="numbers">生成位数（默认4位）</param>  
-        public MemoryStream Create(out string code, int numbers = 4)
+        public MemoryStream Create(out string code, int numbers)
         {
             code = RndNum(numbers);
             Bitmap Img = null;

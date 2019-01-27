@@ -71,15 +71,11 @@
     <None Include="wwwroot\JsAndCss\assets\ico\apple-touch-icon-72-precomposed.png" />
     <None Include="wwwroot\JsAndCss\assets\ico\favicon.png" />
     <None Include="wwwroot\JsAndCss\assets\img\backgrounds\1.jpg" />
-    <None Include="wwwroot\JsAndCss\assets\js\jquery-1.11.1.js" />
-    <None Include="wwwroot\JsAndCss\assets\js\jquery-1.11.1.min.js" />
-    <None Include="wwwroot\JsAndCss\assets\js\jquery.backstretch.js" />
-    <None Include="wwwroot\JsAndCss\assets\js\jquery.backstretch.min.js" />
     <None Include="wwwroot\JsAndCss\assets\js\placeholder.js" />
-    <None Include="wwwroot\JsAndCss\assets\js\scripts.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="jQuery" Version="3.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.4" />
@@ -88,6 +84,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.6" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
   </ItemGroup>
 
