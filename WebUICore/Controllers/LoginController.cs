@@ -16,11 +16,11 @@ namespace WebUICore.Controllers
         {
             _cache = memoryCache;
         }
-        public IActionResult ValidateCode(int numbers)
+        public IActionResult ValidateCode()
         {
             string code = "";
             CommonHelper c = new CommonHelper();
-            System.IO.MemoryStream ms = c.Create(out code, numbers);
+            System.IO.MemoryStream ms = c.Create(out code, 4);
             string iCode = code.ToLower();
             _cache.Set("validata", iCode);
             return File(ms.ToArray(), @"image/png");

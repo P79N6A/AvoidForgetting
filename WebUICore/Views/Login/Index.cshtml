@@ -55,8 +55,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="sr-only" for="form-validate">Validate</label>
-                                    <img id="image-imageCode" name="image-imageCode" class="image-imageCode form-control" src="/Login/ValidateCode?numbers=5" style="float: left; height: 40px;width:auto;" />
-                                    <a href="javascript:void(0)" style="color:green" onclick="changeCheckCode();return false;">看不清，换一张</a>
+                                    <img id="imgValidateCode" name="image-imageCode" class="image-imageCode form-control" src="/Login/ValidateCode?numbers=5" style="float: left; height: 40px;width:auto;" />
+                                    <a id="kanbuq" href="javascript:;">看不清，换一张</a>
                                     <input style="float:right;" type="text" class="form-validate form-control" id="form-validate" name="form-validate" placeholder="验证码..." />
                                 </div>
                                 <button type="button" class="btn" id="login">点击登录</button>
@@ -90,6 +90,7 @@
     <script type="text/javascript">
         $(function () {
             $("#login").click(login);
+
             //登录js
             function login() {
                 var userName = $("#form-username").val();
@@ -101,14 +102,26 @@
                     url: "/Login/UserLogin",
                     data: { userName: userName, pwd: pwd, validata: validata },
                     success: function (data) {
-                        alert(data);
+                        if (data == "ok") {
+                            window.location.href = "/Home/Index";
+                        } else {
+                            alert(data);
+                        }
                     }
                 });
             }
 
-            function changeCheckCode() {
+            //点击图片或者文字刷新验证码js
+            $("#kanbuq,#imgValidateCode").click(function () {
+                var old = $("#imgValidateCode").attr("src");
+                var now = new Date();
+                var str = old +
+                now.getDay() +
+                now.getSeconds() +
+                now.getMilliseconds();
+                $("#imgValidateCode").attr("src", str);
+            });
 
-            }
         });
     </script>
     <div class="backstretch" style="left: 0px; top: 0px; overflow: hidden; margin: 0px; padding: 0px; height: 820px; width: 508px; z-index: -999999; position: fixed;">
