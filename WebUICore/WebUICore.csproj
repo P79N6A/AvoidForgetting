@@ -4,12 +4,9 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="wwwroot\lib\ligerUI\**" />
-    <Content Remove="wwwroot\lib\ligerUI\**" />
-    <EmbeddedResource Remove="wwwroot\lib\ligerUI\**" />
-    <None Remove="wwwroot\lib\ligerUI\**" />
-  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Views\Login\1.jpg" />
@@ -85,6 +82,7 @@
     <None Include="wwwroot\lib\js\demo\datatables-demo.js" />
     <None Include="wwwroot\lib\js\sb-admin.js" />
     <None Include="wwwroot\lib\js\sb-admin.min.js" />
+    <None Include="wwwroot\lib\README.md" />
     <None Include="wwwroot\lib\scss\sb-admin.scss" />
     <None Include="wwwroot\lib\scss\_cards.scss" />
     <None Include="wwwroot\lib\scss\_footer.scss" />

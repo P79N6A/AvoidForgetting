@@ -20,6 +20,12 @@ namespace WebUICore.Controllers
             return View();
         }
 
+
+        public IActionResult Tables()
+        {
+            return View();
+        }
+
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
