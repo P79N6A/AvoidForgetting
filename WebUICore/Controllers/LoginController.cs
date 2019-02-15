@@ -26,6 +26,13 @@ namespace WebUICore.Controllers
             return File(ms.ToArray(), @"image/png");
         }
 
+        /// <summary>
+        /// 用户登陆逻辑
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="pwd"></param>
+        /// <param name="validata"></param>
+        /// <returns></returns>
         public IActionResult UserLogin(string userName, string pwd, string validata)
         {
             string lvalidata = validata.ToLower();
@@ -49,6 +56,16 @@ namespace WebUICore.Controllers
                 _cache.Remove("validata");
             }
             return Content("ok");
+        }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        public IActionResult ForgetPwd()
+        {
+            return View();
         }
     }
 }

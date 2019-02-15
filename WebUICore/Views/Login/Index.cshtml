@@ -106,13 +106,15 @@
                             window.location.href = "/Home/Index";
                         } else {
                             alert(data);
+                            checkRefresh();
                         }
                     }
                 });
             }
 
             //点击图片或者文字刷新验证码js
-            $("#kanbuq,#imgValidateCode").click(function () {
+            $("#kanbuq,#imgValidateCode").click(checkRefresh);
+            function checkRefresh() {
                 var old = $("#imgValidateCode").attr("src");
                 var now = new Date();
                 var str = old +
@@ -120,7 +122,7 @@
                 now.getSeconds() +
                 now.getMilliseconds();
                 $("#imgValidateCode").attr("src", str);
-            });
+            }
 
         });
     </script>
