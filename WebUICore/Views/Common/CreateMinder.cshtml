@@ -1,0 +1,206 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>KityMinder Editor</title>
+    <link href="favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <link href="~/lib/kityminder/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/kityminder/bower_components/codemirror/lib/codemirror.css" />
+    <link rel="stylesheet" href="~/lib/kityminder/bower_components/hotbox/hotbox.css" />
+    <link rel="stylesheet" href="~/lib/kityminder/node_modules/kityminder-core/dist/kityminder.core.css" />
+    <link rel="stylesheet" href="~/lib/kityminder/bower_components/color-picker/dist/color-picker.min.css" />
+    <link rel="stylesheet" href="~/lib/kityminder/dist/kityminder.editor.min.css">
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: inherit;
+        }
+
+        h1.editor-title {
+            background: #393F4F;
+            color: white;
+            margin: 0;
+            height: 40px;
+            font-size: 14px;
+            line-height: 40px;
+            font-family: 'Hiragino Sans GB', 'Arial', 'Microsoft Yahei';
+            font-weight: normal;
+            padding: 0 20px;
+        }
+
+        div.minder-editor-container {
+            position: absolute;
+            top: 40px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .diy {
+            height: 30px;
+            line-height: 30px;
+            margin-top: 5px;
+            float: right;
+            color: #333;
+            overflow: hidden;
+            position: relative;
+        }
+
+       .diy input {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                display: inline-block;
+                opacity: 0;
+            }
+    </style>
+
+
+</head>
+
+<body ng-app="Mykityminder" ng-controller="MainController" >
+    <h1 class="editor-title">
+        Avoid Forgetting
+        <button class="diy">
+            导入
+            <input type="file" id="fileInput">
+        </button>   
+    </h1>
+            <kityminder-editor on-init="initEditor(editor, minder)"></kityminder-editor>
+           
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="~/lib/vendor/jquery/jquery.min.js"></script>
+    <script src="~/lib/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="~/lib/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="~/lib/js/sb-admin.min.js"></script>
+    <script src="~/lib/kityminder/bower_components/jquery/dist/jquery.js"></script>
+    <script src="~/lib/kityminder/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/kityminder/bower_components/angular/angular.js"></script>
+    <script src="~/lib/kityminder/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="~/lib/kityminder/bower_components/codemirror/lib/codemirror.js"></script>
+    <script src="~/lib/kityminder/bower_components/codemirror/mode/xml/xml.js"></script>
+    <script src="~/lib/kityminder/bower_components/codemirror/mode/javascript/javascript.js"></script>
+    <script src="~/lib/kityminder/bower_components/codemirror/mode/css/css.js"></script>
+    <script src="~/lib/kityminder/bower_components/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="~/lib/kityminder/bower_components/codemirror/mode/markdown/markdown.js"></script>
+    <script src="~/lib/kityminder/bower_components/codemirror/addon/mode/overlay.js"></script>
+    <script src="~/lib/kityminder/bower_components/codemirror/mode/gfm/gfm.js"></script>
+    <script src="~/lib/kityminder/bower_components/angular-ui-codemirror/ui-codemirror.js"></script>
+    <script src="~/lib/kityminder/bower_components/marked/lib/marked.js"></script>
+    <script src="~/lib/kityminder/bower_components/kity/dist/kity.min.js"></script>
+    <script src="~/lib/kityminder/bower_components/hotbox/hotbox.js"></script>
+    <script src="~/lib/kityminder/bower_components/json-diff/json-diff.js"></script>
+    <script src="~/lib/kityminder/node_modules/kityminder-core/dist/kityminder.core.min.js"></script>
+    <script src="~/lib/kityminder/bower_components/color-picker/dist/color-picker.min.js"></script>
+    <!-- endbower -->
+
+    <script src="~/lib/kityminder/dist/kityminder.editor.min.js"></script>
+
+
+    <script>
+        angular.module('Mykityminder', ['kityminderEditor'])
+			.config(function (configProvider) {
+			    configProvider.set('imageUpload', '~/lib/kityminder/server/imageUpload.php');
+			})
+			.controller('MainController', function($scope) {
+				$scope.initEditor = function(editor, minder) {
+					window.editor = editor;
+					window.minder = minder;
+				};
+			});
+
+        //导入
+        window.onload = function() {
+            var fileInput = document.getElementById('fileInput');
+
+            fileInput.addEventListener('change', function(e) {
+                var file = fileInput.files[0],
+                        // textType = /(md|km)/,
+                        fileType = file.name.substr(file.name.lastIndexOf('.')+1);
+                switch(fileType){
+                    case 'md':
+                        fileType = 'markdown';
+                        break;
+                    case 'km':
+                    case 'json':
+                        fileType = 'json';
+                        break;
+                    default:
+                        console.log("File not supported!");
+                        alert('只支持.km、.md、.json文件');
+                        return;
+                }
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var content = reader.result;
+                    editor.minder.importData(fileType, content).then(function(data){
+                        $(fileInput).val('');
+                    });
+                }
+                reader.readAsText(file);
+            });
+        }
+
+        // 导出
+        $(document).on('click', '.export', function (event) {
+            event.preventDefault();
+            var type = $(this).data('type'),
+                    exportType;
+            switch (type) {
+                case 'km':
+                    exportType = 'json';
+                    break;
+                case 'md':
+                    exportType = 'markdown';
+                    break;
+                default:
+                    exportType = type;
+                    break;
+            }
+            editor.minder.exportData(exportType).then(function (content) {
+                switch (exportType) {
+                    case 'json':
+                        console.log($.parseJSON(content));
+                        break;
+                    default:
+                        console.log(content);
+                        break;
+                }
+                var aLink = document.createElement('a'),
+                        evt = document.createEvent("HTMLEvents"),
+                        blob = new Blob([content]);
+
+                evt.initEvent("click", false, false);
+                aLink.download = $('#node_text1').text() + '.' + type;
+                aLink.href = URL.createObjectURL(blob);
+                aLink.dispatchEvent(evt);
+            });
+        });
+    </script>
+
+
+
+</body>
+
+</html>

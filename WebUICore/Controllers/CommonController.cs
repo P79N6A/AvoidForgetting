@@ -21,5 +21,10 @@ namespace WebUICore.Controllers
         {
             return View();
         }
+
+        public IActionResult CreateMinder()
+        {
+            return View();
+        }
     }
 }
